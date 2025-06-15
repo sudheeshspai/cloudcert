@@ -1,6 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-export default function Navbar({ onLogout }) {
+export default function Navbar({ user, onLogout }) {
+  const location = useLocation();
+
+  // Don't show Navbar on login or signup pages
+  if (location.pathname === '/login' || location.pathname === '/signup') {
+    return null;
+  }
   return (
     <div style={{
       width: '90%',
@@ -21,7 +28,7 @@ export default function Navbar({ onLogout }) {
       top: '10px',
       zIndex: 1000
     }}>
-    {/* Logo */}
+      {/* Logo */}
     <div style={{
         display: 'flex',
         alignItems: 'center',
@@ -49,6 +56,7 @@ export default function Navbar({ onLogout }) {
     </div>
 
     {/* Logout Button */}
+     {onLogout && (
       <button
         onClick={onLogout}
         style={{
@@ -71,6 +79,9 @@ export default function Navbar({ onLogout }) {
       >
         Logout
       </button>
+     )}
+
+      {/* User Info */}
     </div>
   );
 }

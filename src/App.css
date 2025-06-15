@@ -6,8 +6,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 900;
 }
-
+*{
+  z-index: 900;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -44,10 +47,6 @@ input[type="file"] {
   transition: border 0.2s;
 }
 
-input[type="file"]:focus {
-  border: 1.5px solid #2575fc;
-  outline: none;
-}
 
 button {
   padding: 0.7rem 2.2rem;
@@ -94,4 +93,108 @@ button:hover {
 .liquidChrome-container {
   width: 100%;
   height: 100%;
+}
+.navbar {
+  width: 100%;
+  background: rgba(40,44,52,0.98);
+  color: #fff;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(31,38,135,0.08);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.logout-btn {
+  padding: 0.5rem 1.2rem;
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+
+/* Responsive styles for mobile and tablet */
+@media (max-width: 900px) {
+  .App-header {
+    min-height: 40vh;
+    padding: 1.5rem 1rem;
+    font-size: calc(10px + 2vmin);
+    border-radius: 12px;
+  }
+
+  .navbar {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .navbar-title {
+    font-size: 1.1rem;
+  }
+
+  .logout-btn {
+    font-size: 0.95rem;
+    padding: 0.4rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .App {
+    padding: 0.5rem;
+  }
+
+  .App-header {
+    min-height: 30vh;
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .navbar {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.95rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .navbar-title {
+    font-size: 1rem;
+  }
+
+  .logout-btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.8rem;
+  }
+
+  .splash-cursor {
+    width: 24px;
+    height: 24px;
+  }
+
+  input[type="file"], button, .App-link {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
 }

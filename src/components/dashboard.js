@@ -6,6 +6,8 @@ export default function Dashboard({ user, setUser }) {
   const [certs, setCerts] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [renamingId, setRenamingId] = useState(null);
+const [newCertName, setNewCertName] = useState('');
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -39,6 +41,55 @@ export default function Dashboard({ user, setUser }) {
     }
     setUploading(false);
   };
+  const handleRename = async (oldPath) => {
+  if (!newCertName) return alert("Enter a new name first.");
+
+  const fileExt = oldPath.split('.').pop(); // preserve extension
+  const newPath = `${Date.now()}_${newCertName}.${fileExt}`;
+
+  const { data, error: downloadError } = await supabase
+    .storage
+    .from('certificate')
+    .download(oldPath);
+
+  if (downloadError) {
+    return alert("Download failed: " + downloadError.message);
+  }
+
+  const { error: uploadError } = await supabase
+    .storage
+    .from('certificate')
+    .upload(newPath, data);
+
+  if (uploadError) {
+    return alert("Rename (upload new) failed: " + uploadError.message);
+  }
+
+  const { error: deleteError } = await supabase
+    .storage
+    .from('certificate')
+    .remove([oldPath]);
+
+  if (deleteError) {
+    return alert("Rename (delete old) failed: " + deleteError.message);
+  }
+
+  const { data: publicUrl } = supabase
+    .storage
+    .from('certificate')
+    .getPublicUrl(newPath);
+
+  setCerts(certs.map(cert =>
+    cert.path === oldPath
+      ? { ...cert, name: newCertName + '.' + fileExt, path: newPath, url: publicUrl.publicUrl }
+      : cert
+  ));
+
+  setRenamingId(null);
+  setNewCertName('');
+  alert("✅ Certificate renamed!");
+};
+
 
   const handleDelete = async (certPath) => {
     const confirm = window.confirm("Are you sure you want to delete this certificate?");
@@ -75,6 +126,7 @@ export default function Dashboard({ user, setUser }) {
         />
       );
     }
+    
 
     return (
       <img
@@ -148,46 +200,141 @@ export default function Dashboard({ user, setUser }) {
               marginTop: '20px'
             }}>
               {certs.map((cert, idx) => (
-                <div key={idx} style={{
-                  textDecoration: 'none',
-                  color: 'white',
-                  border: '1px solid #ffffff33',
-                  borderRadius: '15px',
-                  overflow: 'hidden',
-                  backgroundColor: '#ffffff11',
-                  backdropFilter: 'blur(8px)',
-                  transition: 'transform 0.2s',
-                  position: 'relative'
-                }}>
-                  <a href={cert.url} target="_blank" rel="noopener noreferrer">
-                    {renderPreview(cert)}
-                  </a>
-                  <div style={{
-                    padding: '10px',
-                    fontSize: '0.85rem',
-                    fontWeight: '600',
-                    background: '#ffffff22',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{ flex: 1, textAlign: 'left' }}>📄 {cert.name}</span>
-                    <button
-                      onClick={() => handleDelete(cert.path)}
-                      style={{
-                        background: '#ff4d4d',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '6px',
-                        padding: '6px 10px',
-                        cursor: 'pointer',
-                        marginLeft: '10px'
-                      }}
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </div>
+     <div key={idx} style={{
+  border: '1px solid #ffffff22',
+  borderRadius: '15px',
+  backgroundColor: 'rgba(255, 255, 255, 0.04)',
+  overflow: 'hidden',
+  transition: '0.3s ease',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+}}>
+  <a href={cert.url} target="_blank" rel="noopener noreferrer">
+    {renderPreview(cert)}
+  </a>
+
+  <div style={{ padding: '12px 15px', fontSize: '0.85rem', fontWeight: 500, color: '#fff' }}>
+    📄 {cert.name}
+  </div>
+ <div style={{
+  display: 'flex',
+  justifyContent: 'space-around',
+  padding: '12px',
+  background: 'rgba(255,255,255,0.03)',
+  borderTop: '1px solid #ffffff11',
+  gap: '10px'
+}}>
+  <button
+    onClick={() => setRenamingId(cert.path)}
+    style={{
+      background: '#ffaa00',
+      border: 'none',
+      color: '#000',
+      borderRadius: '8px',
+      padding: '8px 12px',
+      cursor: 'pointer',
+      fontSize: '0.8rem',
+      fontWeight: 'bold',
+      transition: 'all 0.2s ease-in-out'
+    }}
+    onMouseOver={(e) => e.target.style.background = '#ffc233'}
+    onMouseOut={(e) => e.target.style.background = '#ffaa00'}
+  > Rename</button>
+
+  <button
+    onClick={() => handleDelete(cert.path)}
+    style={{
+      background: '#ff4d4d',
+      border: 'none',
+      color: 'white',
+      borderRadius: '8px',
+      padding: '8px 12px',
+      cursor: 'pointer',
+      fontSize: '0.8rem',
+      fontWeight: 'bold',
+      transition: 'all 0.2s ease-in-out'
+    }}
+    onMouseOver={(e) => e.target.style.background = '#ff6666'}
+    onMouseOut={(e) => e.target.style.background = '#ff4d4d'}
+  > Delete</button>
+</div>
+
+     {renamingId === cert.path && (
+  <div
+    style={{
+      padding: '12px',
+      background: '#111',
+      borderTop: '1px solid #333',
+      boxSizing: 'border-box'
+    }}
+  >
+    <input
+      type="text"
+      value={newCertName}
+      onChange={(e) => setNewCertName(e.target.value)}
+      placeholder="New name (no extension)"
+      style={{
+        width: '100%',
+        padding: '10px',
+        borderRadius: '8px',
+        border: '1px solid #555',
+        marginBottom: '12px',
+        background: '#222',
+        color: 'white',
+        fontSize: '0.85rem',
+        boxSizing: 'border-box'
+      }}
+    />
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: '10px',
+        justifyContent: 'space-between'
+      }}
+    >
+      <button
+        onClick={() => handleRename(cert.path)}
+        style={{
+          flex: 1,
+          background: '#28a745',
+          border: 'none',
+          color: 'white',
+          padding: '8px',
+          borderRadius: '6px',
+          cursor: 'pointer',
+          minWidth: '100px'
+        }}
+      >
+        ✅ Confirm
+      </button>
+      <button
+        onClick={() => {
+          setRenamingId(null);
+          setNewCertName('');
+        }}
+        style={{
+          flex: 1,
+          background: '#555',
+          border: 'none',
+          color: 'white',
+          padding: '8px',
+          borderRadius: '6px',
+          cursor: 'pointer',
+          minWidth: '100px'
+        }}
+      >
+        ❌ Cancel
+      </button>
+    </div>
+  </div>
+)}
+
+</div>
+
+                
               ))}
             </div>
           )}

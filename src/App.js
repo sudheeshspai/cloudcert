@@ -3,6 +3,7 @@ import Login from './components/login';
 import Signup from './components/signup';
 import Dashboard from './components/dashboard';
 import Navbar from './components/Navbar';
+import SplashCursor from './components/spalshcursor'; 
 
 import './App.css';
 
@@ -33,14 +34,17 @@ function App() {
         ) : (
           <Signup setUser={setUser} toggle={() => setHasAccount(true)} />
         )}
+         <SplashCursor />
       </>
     );
   }
 
+
   return (
     <>
-      <Navbar onLogout={user ? () => setUser(null) : null} />
+      <Navbar onLogout={() => setUser(null)} />
       <Dashboard user={user} />
+       <SplashCursor />
     </>
   );
 }
