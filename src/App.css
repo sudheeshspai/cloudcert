@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .App-logo {
@@ -14,18 +20,67 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background: rgba(40, 44, 52, 0.95);
+  min-height: 60vh;
+  padding: 2rem 3rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: calc(12px + 2vmin);
+  color: #fff;
+  margin-bottom: 2rem;
+}
+
+input[type="file"] {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+input[type="file"]:focus {
+  border: 1.5px solid #2575fc;
+  outline: none;
+}
+
+button {
+  padding: 0.7rem 2.2rem;
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.08);
+  transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+  transform: translateY(-2px) scale(1.03);
 }
 
 .App-link {
-  color: #61dafb;
+  color: #fff;
+  background: #2575fc;
+  padding: 0.3rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s;
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+.App-link:hover {
+  background: #6a11cb;
+  color: #fff;
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +90,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+.liquidChrome-container {
+  width: 100%;
+  height: 100%;
 }

@@ -1,24 +1,47 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
+import Login from './components/login';
+import Signup from './components/signup';
+import Dashboard from './components/dashboard';
+import Navbar from './components/Navbar';
+
 import './App.css';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [hasAccount, setHasAccount] = useState(true);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleUpload = () => {
+    if (selectedFile) {
+      // Replace this with your actual upload logic
+      alert(`Uploading: ${selectedFile.name}`);
+    } else {
+      alert('Please select a file first.');
+    }
+  };
+
+  if (!user) {
+    return (
+      <>
+        <Navbar />
+        {hasAccount ? (
+          <Login setUser={setUser} toggle={() => setHasAccount(false)} />
+        ) : (
+          <Signup setUser={setUser} toggle={() => setHasAccount(true)} />
+        )}
+      </>
+    );
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar onLogout={user ? () => setUser(null) : null} />
+      <Dashboard user={user} />
+    </>
   );
 }
 
