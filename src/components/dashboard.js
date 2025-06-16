@@ -149,44 +149,74 @@ const [newCertName, setNewCertName] = useState('');
 
 
         {/* Upload Section */}
-        <div style={{
-          border: '2px dashed #ffffff55',
-          padding: '30px',
-          borderRadius: '15px',
-          backgroundColor: 'rgba(255,255,255,0.05)',
-          marginBottom: '25px'
-        }}>
-          <h3 style={{ marginBottom: '10px' }}>📤 Upload Certificate</h3>
-          <input
-            type="file"
-            accept=".pdf,.jpg,.png"
-            onChange={handleFileChange}
-            style={{
-              background: '#ffffff22',
-              padding: '10px',
-              borderRadius: '10px',
-              color: 'white'
-            }}
-          />
-          <button
-            onClick={handleUpload}
-            disabled={!selectedFile || uploading}
-            style={{
-              marginTop: '20px',
-              background: '#00c6ff',
-              backgroundImage: 'linear-gradient(45deg, #00c6ff, #0072ff)',
-              border: 'none',
-              padding: '12px 20px',
-              borderRadius: '12px',
-              color: '#fff',
-              fontWeight: '600',
-              cursor: selectedFile && !uploading ? 'pointer' : 'not-allowed',
-              transition: '0.3s ease'
-            }}
-          >
-            {uploading ? 'Uploading...' : '🚀 Confirm Upload'}
-          </button>
-        </div>
+  {/* Upload Section (Drag & Drop + File Picker) */}
+<div
+  onDrop={(e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length > 0) {
+      setSelectedFile(e.dataTransfer.files[0]);
+    }
+  }}
+  onDragOver={(e) => e.preventDefault()}
+  style={{
+    border: '2px dashed #ffffff55',
+    padding: '30px',
+    borderRadius: '15px',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    marginBottom: '25px',
+    textAlign: 'center',
+    transition: 'background 0.3s ease',
+  }}
+>
+  <h3 style={{ marginBottom: '10px' }}>📤 Upload Certificate</h3>
+  <p style={{ color: '#aaa', marginBottom: '15px' }}>
+    Drag and drop a PDF or image file here <br /> or choose from your device below.
+  </p>
+
+  {/* File Picker */}
+  <input
+    type="file"
+    accept=".pdf,.jpg,.png"
+    onChange={handleFileChange}
+    style={{
+      background: '#ffffff22',
+      padding: '10px',
+      borderRadius: '10px',
+      color: 'white',
+      cursor: 'pointer',
+      border: '1px solid #999',
+      marginBottom: '15px'
+    }}
+  />
+
+  {/* Show selected file name */}
+  {selectedFile && (
+    <div style={{ color: 'white', marginTop: '10px' }}>
+      Selected: <strong>{selectedFile.name}</strong>
+    </div>
+  )}
+
+  {/* Upload Button */}
+  <button
+    onClick={handleUpload}
+    disabled={!selectedFile || uploading}
+    style={{
+      marginTop: '20px',
+      background: '#00c6ff',
+      backgroundImage: 'linear-gradient(45deg, #00c6ff, #0072ff)',
+      border: 'none',
+      padding: '12px 20px',
+      borderRadius: '12px',
+      color: '#fff',
+      fontWeight: '600',
+      cursor: selectedFile && !uploading ? 'pointer' : 'not-allowed',
+      transition: '0.3s ease'
+    }}
+  >
+    {uploading ? 'Uploading...' : '🚀 Confirm Upload'}
+  </button>
+</div>
+
         {/* Certificates List */}
         <div>
           <h3>Your Certificates:</h3>
