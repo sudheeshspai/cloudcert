@@ -1,6 +1,6 @@
-# CERTHEX
+# CLOUDCERT
 
-CERTHEX is a web application that allows users to easily upload, manage, and download image certificates in a secure and user-friendly dashboard. The app features authentication, drag-and-drop file upload, and a visually engaging splash cursor effect.
+Cloudcert is a web application that allows users to easily upload, manage, and download image certificates in a secure and user-friendly dashboard. The app features authentication, drag-and-drop file upload, and a visually engaging splash cursor effect.
 
 ## Features
 
