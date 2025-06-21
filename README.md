@@ -1,90 +1,98 @@
-# CLOUDCERT
+# CLOUDCERTS
 
-Cloudcert is a web application that allows users to easily upload, manage, and download image certificates in a secure and user-friendly dashboard. The app features authentication, drag-and-drop file upload, and a visually engaging splash cursor effect.
+A modern, secure, and beautiful certificate management platform built with React and Supabase. Upload, store, and manage your certificates privately in the cloud.
 
 ## Features
 
-- **User Authentication**: Sign up and log in to access your dashboard.
-- **Dashboard**: Manage your uploaded image certificates.
-- **Drag and Drop Upload**: Easily upload files by dragging and dropping them onto the page.
-- **Download Option**: Download files directly from the dashboard.
-- **Splash Cursor Effect**: Interactive fluid effect cursor overlay.
-- **Responsive Design**: Works well on both desktop and mobile devices.
+- User authentication (sign up, login, logout)
+- Each user gets a private, secure storage space (100MB quota)
+- Upload, view, rename, and delete certificates (PDF, JPG, PNG)
+- Responsive, professional UI with glassmorphism and animated background
+- Dashboard with real-time storage usage
+- Built with React, Supabase, and modern CSS
+
 
 ## Getting Started
 
-### Prerequisites
+### 1. Clone the repository
 
-- [Node.js](https://nodejs.org/) (v14 or higher recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+```bash
+# Using HTTPS
+git clone https://github.com/your-username/cloudcerts.git
+cd cloudcerts
+```
 
-### Installation
+### 2. Install dependencies
 
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/yourusername/certhex.git
-   cd certhex
-   ```
+```bash
+npm install
+# or
+yarn install
+```
 
-2. **Install dependencies:**
-   ```sh
-   npm install
-   # or
-   yarn install
-   ```
+### 3. Set up Supabase
 
-3. **Start the development server:**
-   ```sh
-   npm start
-   # or
-   yarn start
-   ```
+- Go to [Supabase](https://supabase.com/) and create a free account.
+- Create a new project.
+- Go to Project Settings > API and copy your **Project URL** and **anon public API key**.
+- Go to Storage and create a new bucket named `certificate` (public access).
+- Enable authentication (email/password) in the Auth settings.
 
-4. **Open your browser and visit:**
-   ```
-   http://localhost:3000
-   ```
+### 4. Configure environment variables
 
-## Project Structure
+Create a `.env` file in the root of your project:
 
 ```
-cedhex/
+REACT_APP_SUPABASE_URL=your_supabase_project_url
+REACT_APP_SUPABASE_KEY=your_supabase_anon_public_key
+```
+
+**Do NOT share your keys publicly.**
+
+### 5. Start the development server
+
+```bash
+npm start
+# or
+yarn start
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).
+
+## Folder Structure
+
+```
+cloudcerts/
 ├── public/
-│   └── index.html
+│   ├── favicon.ico
+│   ├── index.html
+│   └── ...
 ├── src/
+│   ├── components/
+│   │   ├── Dashboard.js
+│   │   ├── Footer.js
+│   │   ├── login.js
+│   │   ├── Navbar.js
+│   │   ├── signup.js
+│   │   └── ...
 │   ├── App.js
 │   ├── App.css
-│   └── components/
-│       ├── login.js
-│       ├── signup.js
-│       ├── dashboard.js
-│       ├── Navbar.js
-│       └── spalshcursor.js
+│   ├── supabaseclient.js
+│   └── ...
+├── .env
+├── package.json
 └── README.md
 ```
 
-## Key Files
-
-- **public/index.html**: Main HTML file with meta tags and manifest.
-- **src/App.js**: Main React component handling authentication, drag-and-drop, and routing.
-- **src/components/spalshcursor.js**: Implements the splash/fluid cursor effect.
-- **src/components/login.js, signup.js, dashboard.js, Navbar.js**: UI components for authentication and navigation.
-
-## Usage
-
-- **Sign Up / Log In**: Create an account or log in to access your dashboard.
-- **Upload Files**: Drag and drop image certificates onto the page or use the upload button.
-- **Download Files**: Use the download option to save certificates to your device.
-
 ## Customization
 
-- Update the app name, description, and author in `public/index.html`.
-- Modify splash cursor settings in `src/components/spalshcursor.js` via props.
+- Update the logo and branding in `Navbar.js` and `public/favicon.ico`.
+- Tweak the color palette in `App.css` to match your brand.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT
 
 ---
 
-**Made with ❤️ for secure certificate management.**
+**Developed by sudheeshspai (hashpai) with 💻laptop and coffe☕**
