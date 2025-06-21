@@ -25,63 +25,77 @@ export default function Signup({ setUser, toggle }) {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Sign Up</h2>
-
-        {/* Email */}
+    <div className="container" style={{ minHeight: 'calc(100vh - 120px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div className="card" style={{ background: 'rgba(18,36,77,0.85)', border: '2px solid #2563eb', color: '#eaf1fb', backdropFilter: 'blur(8px) saturate(120%)', WebkitBackdropFilter: 'blur(8px) saturate(120%)', boxShadow: '0 2px 12px rgba(0,0,0,0.18)', margin: '0 auto' }}>
+        <h2 style={{ textAlign: 'center', color: '#38bdf8', fontWeight: 700, marginBottom: '20px' }}>Sign Up</h2>
         <div style={{ position: 'relative', width: '100%' }}>
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            style={inputStyle}
+            style={{ background: '#12244d', color: '#eaf1fb', border: '1.5px solid #2563eb' }}
           />
         </div>
-
-        {/* Password */}
         <div style={{ position: 'relative', width: '100%' }}>
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            style={inputStyle}
+            style={{ background: '#12244d', color: '#eaf1fb', border: '1.5px solid #2563eb' }}
           />
           <span
             onClick={() => setShowPassword(!showPassword)}
-            style={iconStyle}
+            style={{
+              position: 'absolute',
+              right: '20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              color: '#38bdf8',
+              fontSize: '1.1rem'
+            }}
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-
-        {/* Confirm Password */}
         <div style={{ position: 'relative', width: '100%' }}>
           <input
             type={showConfirmPassword ? "text" : "password"}
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
-            style={inputStyle}
+            style={{ background: '#12244d', color: '#eaf1fb', border: '1.5px solid #2563eb' }}
           />
           <span
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            style={iconStyle}
+            style={{
+              position: 'absolute',
+              right: '20px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+              color: '#38bdf8',
+              fontSize: '1.1rem'
+            }}
           >
             {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-
-        {/* Sign Up Button */}
-        <button onClick={handleSignup}>Sign Up</button>
-
-        <p style={{ marginTop: '15px', textAlign: 'center' }}>
+        <button onClick={handleSignup} style={{ width: '100%', marginTop: 18, background: 'linear-gradient(90deg, #2563eb 0%, #38bdf8 100%)', color: '#fff', border: 'none' }}>Sign Up</button>
+        <p style={{ marginTop: '15px', textAlign: 'center', color: '#7dd3fc' }}>
           Already have an account?{' '}
           <span
             onClick={toggle}
-            style={{ cursor: 'pointer', textDecoration: 'underline', className: 'testhover' }}
+            style={{
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              color: '#38bdf8',
+              fontWeight: 500
+            }}
+            onMouseOver={e => (e.target.style.color = '#ef4444')}
+            onMouseOut={e => (e.target.style.color = '#38bdf8')}
           >
             Login
           </span>
@@ -91,9 +105,9 @@ export default function Signup({ setUser, toggle }) {
   );
 }
 
-// Styles
+// If you want to use these style objects, move them above the component or inside it before the return statement, like this:
+
 const inputStyle = {
-  width: '100%',
   maxWidth: '500px',
   padding: '12px',
   margin: '10px 0',
